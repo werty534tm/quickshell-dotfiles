@@ -1,10 +1,13 @@
 import QtQuick
+import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
 
+import "./Clock.qml"
+
 PanelWindow {
     id: bar
-    height: 30
+    implicitHeight: 30
     visible: true
     color: "#00000000"
 
@@ -21,10 +24,88 @@ PanelWindow {
     }
 
     Rectangle {
+        anchors.left: parent.left
         anchors.fill: parent
         radius: 8
         color: "#282828"
         border.color: "#444444"
         border.width: 1
+
+        RowLayout {
+            id: left
+
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+                left: parent.left
+                leftMargin: 7
+                rightMargin: 7
+            }
+
+            spacing: 12
+
+            Repeater {
+                model: Hyprland.workspaces
+
+                Rectangle {
+                    width: 32
+                    height: 24
+                    radius: 15
+                    color: modelData.active ? "#4a9eff" : "#333333"
+                    border.color: "#555555"
+                    border.width: 2
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: Hyprland.dispatch("workspace " + modelData.id)
+                    }
+
+                    Text {
+                        text: modelData.id
+                        anchors.centerIn: parent
+                        color: modelData.active ? "#ffffff" : "#cccccc"
+                        font.pixelSize: 12
+                    }
+                    Image {
+                        id: imagencita
+                        source: "../smolaire-praising.jpg"
+                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        autoTransform: true
+                    }
+                }
+            }
+        }
+
+        RowLayout {
+            id: clock
+            anchors {
+                top: parent.top
+                bottom: parent.bottom
+                right: parent.right
+                rightMargin: 7
+                leftMargin: 7
+            }
+
+            spacing: 12
+
+            Rectangle {
+                Layout.minimumWidth: 200
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+                radius: 15
+                border.color: "#555555"
+                border.width: 2
+                SystemClock {
+                    id: coso
+                    precision: SystemClock.Seconds
+                }
+
+                Text {
+                    text: Qt.formatDateTime(coso.date, "hh:mm:ss - yyyy-MM-dd")
+                    anchors.centerIn: parent
+                }
+            }
+        }
     }
 }
