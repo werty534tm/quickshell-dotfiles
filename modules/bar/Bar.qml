@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
+import "."
 
 PanelWindow {
     id: bar
@@ -9,6 +10,7 @@ PanelWindow {
     visible: true
     color: "#00000000"
 
+    property var popupOpen: false
     anchors {
         top: true
         left: true
@@ -108,6 +110,27 @@ PanelWindow {
                     text: Qt.formatDateTime(clock.date, "hh:mm:ss - yyyy-MM-dd")
                     anchors.centerIn: parent
                     color: "#3c3836"
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: popupOpen = !popupOpen
+                }
+
+                PopupWindow {
+                    anchor.window: bar
+                    anchor.rect.x: parentWindow.width
+                    anchor.rect.y: parentWindow.height
+                    width: 500
+                    height: 200
+                    visible: popupOpen
+                    Image {
+                        id: imagencita2
+                        source: "../mclovin.jpg"
+                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        autoTransform: true
+                    }
                 }
             }
         }
