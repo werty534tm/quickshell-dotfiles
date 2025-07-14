@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
+import Quickshell.Services.UPower
 import "."
 
 PanelWindow {
@@ -27,9 +28,9 @@ PanelWindow {
         anchors.left: parent.left
         anchors.fill: parent
         radius: 8
-        color: "#28282800"
-        border.color: "#444444"
-        border.width: 1
+        color: "#00000000"
+        border.color: "#689d6a"
+        border.width: 0
 
         RowLayout {
             id: left
@@ -45,15 +46,16 @@ PanelWindow {
             spacing: 12
 
             Repeater {
+                id: repeater
                 model: Hyprland.workspaces
 
                 Rectangle {
                     width: 32
                     height: 24
                     radius: 15
-                    color: modelData.active ? "#4a9eff" : "#333333"
-                    border.color: "#555555"
-                    border.width: 2
+                    color: modelData.active ? "#d79921" : "#fbf1c7"
+                    border.color: modelData.active ? "#b57614" : "00000000"
+                    border.width: 0
 
                     MouseArea {
                         anchors.fill: parent
@@ -63,44 +65,10 @@ PanelWindow {
                     Text {
                         text: modelData.id
                         anchors.centerIn: parent
-                        color: modelData.active ? "#ffffff" : "#cccccc"
+                        color: modelData.active ? "#ffffff" : "#3c3836"
                         font.pixelSize: 12
                     }
-                    // Image {
-                    //     id: imagencita
-                    //     source: "../smolaire-praising.jpg"
-                    //     anchors.fill: parent
-                    //     anchors.centerIn: parent
-                    //     autoTransform: true
-                    // }
                 }
-            }
-        }
-
-        RowLayout {
-            id: centro
-            spacing: 12
-
-            anchors {
-                top: parent.top
-                bottom: parent.bottom
-                right: right.left
-                left: left.right
-                rightMargin: 7
-                leftMargin: 7
-            }
-
-            Rectangle {
-                Layout.topMargin: 3
-                Layout.bottomMargin: 3
-                Layout.minimumWidth: 200
-                Layout.fillWidth: true
-                Layout.fillHeight: true
-
-                radius: 15
-                color: "#fbf1c7"
-                border.color: "#b1628600"
-                border.width: 0
             }
         }
 
@@ -115,6 +83,26 @@ PanelWindow {
             }
 
             spacing: 12
+
+            // Loader {
+            Rectangle {
+                Layout.topMargin: 3
+                Layout.bottomMargin: 3
+                Layout.minimumWidth: 100
+                Layout.fillWidth: true
+                Layout.fillHeight: true
+
+                radius: 15
+                color: "#fbf1c7"
+                border.color: "#b1628600"
+                border.width: 0
+
+                Text {
+                    anchors.centerIn: parent
+                    text: UPower.displayDevice.isLaptopBattery ? qsTr((UPower.displayDevice.percentage * 100).toString()) : qsTr("Nodev")
+                }
+            }
+            // }
 
             Rectangle {
                 Layout.topMargin: 3
