@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Services.UPower
+import "."
 import "../../resources"
 
 PanelWindow {
@@ -45,31 +46,7 @@ PanelWindow {
 
       spacing: 12
 
-      Repeater {
-        id: repeater
-        model: Hyprland.workspaces
-
-        Rectangle {
-          width: 32
-          height: 24
-          radius: 15
-          color: modelData.active ? "#d79921" : "#fbf1c7"
-          border.color: modelData.active ? "#b57614" : "00000000"
-          border.width: 0
-
-          MouseArea {
-            anchors.fill: parent
-            onClicked: Hyprland.dispatch("workspace " + modelData.id)
-          }
-
-          Text {
-            text: modelData.id
-            anchors.centerIn: parent
-            color: modelData.active ? "#ffffff" : "#3c3836"
-            font.pixelSize: 12
-          }
-        }
-      }
+      CustomWorkspaces {}
     }
 
     RowLayout {
@@ -84,99 +61,9 @@ PanelWindow {
 
       spacing: 12
 
-      Rectangle {
-        Layout.topMargin: 3
-        Layout.bottomMargin: 3
-        Layout.minimumWidth: 100
-        Layout.fillWidth: true
-        Layout.fillHeight: true
+      CustomBattery {}
 
-        radius: 15
-        color: "#d5c4a1"
-        border.color: "#b1628600"
-        border.width: 0
-
-        Text {
-          anchors.centerIn: parent
-          text: UPower.displayDevice.isLaptopBattery ? qsTr((UPower.displayDevice.percentage * 100).toString() + "%") : qsTr("Nodev")
-          color: "#3c3836"
-        }
-      }
-
-      Rectangle {
-        Layout.topMargin: 3
-        Layout.bottomMargin: 3
-        Layout.minimumWidth: 200
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-
-        radius: 15
-        color: "#fbf1c7"
-        border.color: "#b1628600"
-        border.width: 0
-
-        SystemClock {
-          id: clock
-          precision: SystemClock.Seconds
-        }
-
-        Text {
-          text: Qt.formatDateTime(clock.date, "hh:mm:ss - yyyy-MM-dd")
-          anchors.centerIn: parent
-          color: "#3c3836"
-        }
-
-        MouseArea {
-          id: mousearea
-          anchors.fill: parent
-          // onClicked: bar.popupOpen = !bar.popupOpen
-        }
-
-        PopupWindow {
-          id: mclovin
-          anchor.window: bar
-          anchor.rect.x: parentWindow.width
-          anchor.rect.y: parentWindow.height
-          implicitWidth: 500
-          implicitHeight: 200
-          // visible: true
-          Image {
-            id: imagencita2
-            source: "../mclovin.jpg"
-            anchors.fill: parent
-            anchors.centerIn: parent
-            autoTransform: true
-          }
-        }
-        // PathAnimation {
-        //     id: pruebaanim
-        //     duration: 2000
-        //     target: imagencita2
-        //     path: Path {
-        //         //no startX, startY
-        //         PathCurve {
-        //             x: 100
-        //             y: 100
-        //         }
-        //         PathCurve {}    //last element is empty with no end point specified
-        //     }
-        // }
-        states: State {
-          name: "toco"
-          when: mousearea.doubleClicked
-          PropertyChanges {
-            target: mclovin
-            mclovin.visible: !mclovin.visible
-          }
-        }
-
-        transitions: Transition {
-          NumberAnimation {
-            properties: "visible"
-            easing.type: Easing.Linear
-          }
-        }
-      }
+      Clock {}
     }
   }
 }
