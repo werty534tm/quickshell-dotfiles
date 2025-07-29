@@ -6,14 +6,14 @@ import Quickshell.Wayland
 import "."
 
 PanelWindow {
-  id: notifLayout
+  id: root
 
   property list<Notification> notifications
 
   implicitWidth: 400
   implicitHeight: 800
   visible: stack.children.length != 0
-  color: "#00000000"
+  color: "#333333aa"
   Component.onCompleted: {
     if (this.WlrLayershell != null) {
       this.WlrLayershell.layer = WlrLayer.Top;
@@ -23,7 +23,6 @@ PanelWindow {
   anchors {
     right: true
     top: true
-    // bottom: true
   }
 
   mask: Region {
@@ -31,27 +30,42 @@ PanelWindow {
   }
   ListView {
     id: stack
+
     implicitWidth: 240
     implicitHeight: children.reduce((h, c) => h + c.height, 0)
+    spacing: 15
+    anchors.right: parent.right
+    rightMargin: 10
+    topMargin: 10
 
     model: ScriptModel {
-      values: [...notifLayout.notifications]
+      values: [...root.notifications]
     }
+
     delegate: NotificationPopup {
       notification: modelData
+      onDismissed: () => {
+        const index = root.notifications.indexOf(notification);
+        if (index > -1) {
+          root.notifications.splice(index, 1);
+        }
+        notification.dismiss();
+      }
     }
-    // delegate: Text {
-    //   property string name: "sadasdsdgherh"
-    //   property string number: "afgf"
-    //   text: name + ": " + number
-    // }
+
+    remove: Transition {
+      NumberAnimation {
+        properties: "x,y"
+        easing.type: Easing.InOutQuad
+      }
+    }
   }
 
   NotificationServer {
     id: server
     onNotification: notification => {
       notification.tracked = true;
-      notifLayout.notifications = [...notifLayout.notifications, notification];
+      root.notifications = [...root.notifications, notification];
     }
   }
 }
