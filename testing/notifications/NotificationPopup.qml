@@ -7,8 +7,6 @@ Rectangle {
 
   signal dismissed
 
-  anchors.right: parent.right
-  anchors.left: parent.left
   implicitWidth: 300
   implicitHeight: 100
   radius: 20
@@ -27,11 +25,13 @@ Rectangle {
       text: qsTr("text")
     }
   }
+
   MouseArea {
+    id: mousearea
     anchors.fill: parent
-    onClicked: e => {
-      root.x = root.x - 300;
-      root.dismissed();
-    }
+    drag.target: parent
+    drag.maximumX: 30
+    drag.minimumX: -30
+    drag.axis: Drag.XAxis
   }
 }
