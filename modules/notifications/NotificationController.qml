@@ -15,7 +15,7 @@ PanelWindow {
   implicitWidth: 500
   implicitHeight: Screen.height
   visible: stack.children.length != 0
-  color: "transparent"
+  color: "#33333333"
   Component.onCompleted: {
     if (this.WlrLayershell != null) {
       this.WlrLayershell.layer = WlrLayer.Top;
@@ -28,8 +28,10 @@ PanelWindow {
   }
 
   mask: Region {
-    width: 600
-    height: 215 * stack.count
+    x: stack.x + stack.leftMargin
+    y: stack.y + stack.topMargin
+    width: 300
+    height: 115 * stack.count - 15
   }
   ListView {
     id: stack
