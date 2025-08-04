@@ -10,12 +10,12 @@ import "."
 PanelWindow {
   id: root
 
-  property list<Notification> notifications
+  // property list<Notification> notifications
 
-  implicitWidth: 400
-  implicitHeight: 800
+  implicitWidth: 500
+  implicitHeight: Screen.height
   visible: stack.children.length != 0
-  color: "#333333aa"
+  color: "transparent"
   Component.onCompleted: {
     if (this.WlrLayershell != null) {
       this.WlrLayershell.layer = WlrLayer.Top;
@@ -28,13 +28,12 @@ PanelWindow {
   }
 
   mask: Region {
-    item: stack
+    width: 600
+    height: 215 * stack.count
   }
   ListView {
     id: stack
 
-    // implicitWidth: 240
-    // implicitHeight: children.reduce((h, c) => h + c.height, 0)
     anchors.fill: parent
     spacing: 15
     rightMargin: 10
@@ -42,44 +41,50 @@ PanelWindow {
     topMargin: 60
     interactive: true
 
-    model: ScriptModel {
-      values: [...root.notifications]
-    }
+    model: server.trackedNotifications
 
     delegate: NotificationPopup {
       required property Notification modelData
       notification: modelData
-      onDismissed: () => {
-        notification.dismiss();
-        const index = root.notifications.indexOf(notification);
-        if (index > -1)
-          root.notifications.splice(index, 1);
-      }
     }
 
     add: Transition {
       NumberAnimation {
-        properties: "x,y"
-        easing.type: Easing.InOutQuad
+        properties: "x"
+        from: 400
+        duration: 1000
+        easing.type: Easing.OutElastic
       }
     }
+
+    addDisplaced: Transition {
+      NumberAnimation {
+        properties: "x"
+        duration: 1000
+        easing.type: Easing.OutElastic
+      }
+    }
+
     remove: Transition {
       ParallelAnimation {
         NumberAnimation {
-          property: "opacity"
-          to: 0
-          duration: 1000
+          properties: "y"
+          to: Screen.height
+          duration: 500
+          easing.type: Easing.InBack
         }
         NumberAnimation {
-          properties: "y"
-          to: 5000
-          duration: 1000
+          properties: "x"
+          to: -200
+          duration: 500
+          easing.type: Easing.InOutQuad
         }
       }
     }
     removeDisplaced: Transition {
       NumberAnimation {
-        properties: "x,y"
+        properties: "y"
+        duration: 500
         easing.type: Easing.InOutQuad
       }
     }
@@ -89,7 +94,6 @@ PanelWindow {
     id: server
     onNotification: notification => {
       notification.tracked = true;
-      root.notifications = [...root.notifications, notification];
     }
   }
 }

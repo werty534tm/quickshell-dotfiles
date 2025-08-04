@@ -5,7 +5,7 @@ import Quickshell.Services.Notifications
 Rectangle {
   id: root
 
-  signal dismissed
+  // signal dismissed
 
   implicitWidth: 300
   implicitHeight: 100
@@ -29,9 +29,12 @@ Rectangle {
   MouseArea {
     id: mousearea
     anchors.fill: parent
-    drag.target: parent
-    drag.maximumX: 30
-    drag.minimumX: -30
-    drag.axis: Drag.XAxis
+
+    onClicked: root.notification.tracked = false
+
+    // drag.target: parent
+    // drag.maximumX: 30
+    // drag.minimumX: -30
+    // drag.axis: Drag.XAxis
   }
 }
