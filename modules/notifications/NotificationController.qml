@@ -15,7 +15,7 @@ PanelWindow {
   implicitWidth: 500
   implicitHeight: Screen.height
   visible: stack.children.length != 0
-  color: "#33333333"
+  color: "transparent"
   Component.onCompleted: {
     if (this.WlrLayershell != null) {
       this.WlrLayershell.layer = WlrLayer.Top;

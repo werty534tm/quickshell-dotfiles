@@ -22,7 +22,7 @@ Rectangle {
     }
     Text {
       id: body
-      text: qsTr("text")
+      text: qsTr(root.notification.body)
     }
   }
 
