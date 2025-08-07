@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Services.Pipewire
 import Quickshell.Widgets
+import "."
 
 Scope {
   id: root
@@ -39,8 +40,7 @@ Scope {
       // Since the panel's screen is unset, it will be picked by the compositor
       // when the window is created. Most compositors pick the current active monitor.
 
-      anchors.bottom: true
-      margins.bottom: screen.height / 5
+      anchors.top: true
       exclusiveZone: 0
 
       implicitWidth: 400
@@ -62,11 +62,13 @@ Scope {
             rightMargin: 15
           }
 
-          IconImage {
-            implicitSize: 30
-            source: Quickshell.iconPath("audio-volume-high-symbolic")
+          Image {
+            id: icono
+            // Layout.fillWidth: true
+            Layout.fillHeight: true
+            source: "./icono-volumen.png"
+            fillMode: Image.PreserveAspectFit
           }
-
           Rectangle {
             // Stretches to fill all left-over space
             Layout.fillWidth: true
