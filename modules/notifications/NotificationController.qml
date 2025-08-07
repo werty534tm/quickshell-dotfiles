@@ -10,9 +10,7 @@ import "."
 PanelWindow {
   id: root
 
-  // property list<Notification> notifications
-
-  implicitWidth: 500
+  implicitWidth: 375
   implicitHeight: Screen.height
   visible: stack.children.length != 0
   color: "transparent"
@@ -38,7 +36,7 @@ PanelWindow {
 
     anchors.fill: parent
     spacing: 15
-    rightMargin: 10
+    rightMargin: 0
     leftMargin: 75
     topMargin: 60
     interactive: true
@@ -48,14 +46,16 @@ PanelWindow {
     delegate: NotificationPopup {
       required property Notification modelData
       notification: modelData
+
+      // notification.expireTimeout: 8
     }
 
     add: Transition {
       NumberAnimation {
         properties: "x"
         from: 400
-        duration: 1000
-        easing.type: Easing.OutElastic
+        duration: 700
+        easing.type: Easing.OutBounce
       }
     }
 
@@ -72,22 +72,28 @@ PanelWindow {
         NumberAnimation {
           properties: "y"
           to: Screen.height
-          duration: 500
-          easing.type: Easing.InBack
+          duration: 1000
+          easing.type: Easing.InQuad
         }
         NumberAnimation {
           properties: "x"
-          to: -200
-          duration: 500
-          easing.type: Easing.InOutQuad
+          to: -50
+          duration: 1000
+          easing.type: Easing.InQuad
+        }
+        NumberAnimation {
+          properties: "rotation"
+          to: -45
+          duration: 1000
+          easing.type: Easing.InQuad
         }
       }
     }
     removeDisplaced: Transition {
       NumberAnimation {
         properties: "y"
-        duration: 500
-        easing.type: Easing.InOutQuad
+        duration: 400
+        easing.type: Easing.OutInExpo
       }
     }
   }

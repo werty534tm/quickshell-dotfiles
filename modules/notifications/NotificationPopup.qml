@@ -1,6 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
+import Quickshell
 import Quickshell.Services.Notifications
+import "."
 
 Rectangle {
   id: root
@@ -10,9 +12,12 @@ Rectangle {
   implicitWidth: 300
   implicitHeight: 100
   radius: 20
-  color: "#333333"
+  color: "transparent"
   property Notification notification
 
+  Image {
+    source: "./notif-cartel.png"
+  }
   ColumnLayout {
     anchors.centerIn: parent
     Text {
