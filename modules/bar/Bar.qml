@@ -3,6 +3,7 @@ import QtQuick.Layouts
 import Quickshell
 import Quickshell.Hyprland
 import Quickshell.Services.UPower
+import Quickshell.Services.SystemTray
 import "."
 import "../../resources"
 
