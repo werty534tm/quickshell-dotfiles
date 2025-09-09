@@ -62,9 +62,52 @@ PanelWindow {
 
       spacing: 12
 
-      CustomBattery {}
+      ListView {
+        id: trayList
 
-      Clock {}
+        Layout.fillHeight: true
+        implicitWidth: 100
+        layoutDirection: Qt.LeftToRight
+        orientation: Qt.Horizontal
+        spacing: 10
+
+        // anchors.top: parent.top
+        // anchors.bottom: parent.bottom
+        // anchors.left: parent.left
+        // anchors.right: battery.left
+
+        model: SystemTray.items
+
+        delegate: Rectangle {
+          width: 36
+          height: 27
+          radius: 15
+
+          color: "#fbf1c7"
+
+          Image {
+            id: icono
+            anchors.centerIn: parent
+            width: 32
+            height: 24
+            source: modelData.icon
+            fillMode: Image.PreserveAspectFit
+          }
+
+          MouseArea {
+            anchors.fill: parent
+            onClicked: modelData.display(bar, bar.width - 200, bar.height)
+          }
+        }
+      }
+
+      CustomBattery {
+        id: battery
+      }
+
+      Clock {
+        id: clock
+      }
     }
   }
 }
