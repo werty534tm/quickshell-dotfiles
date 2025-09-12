@@ -16,6 +16,7 @@ Rectangle {
   property Notification notification
 
   Image {
+    id: cartel
     source: "./notif-cartel.png"
   }
   ColumnLayout {
@@ -23,11 +24,17 @@ Rectangle {
     Text {
       id: summary
       text: qsTr(root.notification.summary)
-      // font: ""
+      Layout.preferredWidth: 250
+      leftPadding: 30
+      font.pixelSize: 16
     }
     Text {
       id: body
       text: qsTr(root.notification.body)
+      leftPadding: 30
+      Layout.preferredWidth: 250
+      wrapMode: Text.Wrap
+      maximumLineCount: 3
     }
   }
 
@@ -36,10 +43,5 @@ Rectangle {
     anchors.fill: parent
 
     onClicked: root.notification.tracked = false
-
-    // drag.target: parent
-    // drag.maximumX: 30
-    // drag.minimumX: -30
-    // drag.axis: Drag.XAxis
   }
 }
