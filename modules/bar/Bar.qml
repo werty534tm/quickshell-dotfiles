@@ -5,7 +5,6 @@ import Quickshell.Hyprland
 import Quickshell.Services.UPower
 import Quickshell.Services.SystemTray
 import "."
-import "../../resources"
 
 PanelWindow {
   id: bar
@@ -67,7 +66,7 @@ PanelWindow {
 
         Layout.fillHeight: true
         implicitWidth: 100
-        layoutDirection: Qt.LeftToRight
+        layoutDirection: Qt.RightToLeft
         orientation: Qt.Horizontal
         spacing: 10
 
