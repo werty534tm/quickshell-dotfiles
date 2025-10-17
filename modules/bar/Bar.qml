@@ -107,6 +107,10 @@ PanelWindow {
       Clock {
         id: clock
       }
+
+      LogoutPanel {
+        id: logout
+      }
     }
   }
 }
